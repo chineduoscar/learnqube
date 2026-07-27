@@ -1,27 +1,27 @@
-'use client'
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import { User, Lock, Eye, EyeOff, Users } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Loader2 } from 'lucide-react';
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { User, Lock, Eye, EyeOff, Users } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
 import Cookies from "js-cookie";
-import logo from '../../assets/LearnQube.png';
-import focused from '../../assets/focused.jpg';
-import GoogleIcon from '../../assets/googleIcon';
-import axiosInstance from '../../config';
+import logo from "../../assets/LearnQube.png";
+import focused from "../../assets/focused.jpg";
+import GoogleIcon from "../../assets/googleIcon";
+import axiosInstance from "../../config";
 
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     rememberMe: false,
   });
 
@@ -36,7 +36,7 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -45,31 +45,33 @@ export default function LoginPage() {
         throw new Error("Invalid response from server");
       }
       setIsLoading(false);
-      Cookies.set('token', response?.data?.token, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("token", response?.data?.token, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userName', response?.data?.user?.name, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userName", response?.data?.user?.name, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userEmail', response?.data?.user?.email, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userEmail", response?.data?.user?.email, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userRole', response?.data?.user?.role, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userRole", response?.data?.user?.role, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
       toast.success("Login successfully");
-      router.push('/dashboard');
-    } 
-    catch (error) {
-      console.log("Login Failed:", error.response?.data?.message || error.message);
+      router.push("/dashboard");
+    } catch (error) {
+      console.log(
+        "Login Failed:",
+        error.response?.data?.message || error.message,
+      );
       setIsLoading(false);
       toast.error("Login failed. Try again.");
     }
@@ -77,9 +79,13 @@ export default function LoginPage() {
 
   const handleGoogleSignup = async () => {
     try {
-      window.location.href = 'https://learnqubeapi.onrender.com/api/v1/auth/google/callback';
+      window.location.href =
+        "https://api-learnqube-backend.onrender.com/api/v1/auth/google/callback";
     } catch (error) {
-      console.log("Google Login Failed:", error.response?.data?.message || error.message);
+      console.log(
+        "Google Login Failed:",
+        error.response?.data?.message || error.message,
+      );
       toast.error("Login failed. Try again.");
     }
   };
@@ -93,24 +99,28 @@ export default function LoginPage() {
             <CardHeader className="space-y-6 pt-8">
               {/* Logo Section */}
               <div className="flex items-center justify-center">
-                <Link href={'/'}>
-                  <div className='flex items-center gap-4'>
+                <Link href={"/"}>
+                  <div className="flex items-center gap-4">
                     <div>
                       <Image
                         src={logo}
-                        alt='learnQube'
+                        alt="learnQube"
                         height={80}
                         width={80}
                         className="h-12 w-12"
                       />
                     </div>
-                    <span className='font-bold text-2xl text-[#481895]'>LEARNQUBE</span>
+                    <span className="font-bold text-2xl text-[#481895]">
+                      LEARNQUBE
+                    </span>
                   </div>
                 </Link>
               </div>
-              
+
               <div className="space-y-1 pt-2">
-                <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+                <CardTitle className="text-2xl text-center">
+                  Welcome back
+                </CardTitle>
                 <p className="text-sm text-muted-foreground text-center">
                   Enter your credentials to access your account
                 </p>
@@ -135,12 +145,15 @@ export default function LoginPage() {
                     <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                   </div>
                 </div>
-                
+
                 {/* Password Input */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <Link href="/forgot-password" className="text-sm hover:text-blue-700 text-[#481895]">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm hover:text-blue-700 text-[#481895]"
+                    >
                       Forgot password?
                     </Link>
                   </div>
@@ -168,11 +181,13 @@ export default function LoginPage() {
 
                 {/* Remember Me Checkbox */}
                 <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="remember" 
-                    name="rememberMe" 
+                  <Checkbox
+                    id="remember"
+                    name="rememberMe"
                     checked={formData.rememberMe}
-                    onCheckedChange={(checked) => setFormData({ ...formData, rememberMe: checked })}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, rememberMe: checked })
+                    }
                   />
                   <label
                     htmlFor="remember"
@@ -182,12 +197,16 @@ export default function LoginPage() {
                   </label>
                 </div>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full text-white bg-[#481895]"
                   disabled={isLoading}
                 >
-                   {isLoading ? <Loader2 className="animate-spin w-5 h-5" /> : "Sign In"}
+                  {isLoading ? (
+                    <Loader2 className="animate-spin w-5 h-5" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
 
                 <div className="relative">
@@ -214,8 +233,11 @@ export default function LoginPage() {
 
                 {/* Signup Link */}
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?{' '}
-                  <Link href="/signup" className="hover:text-blue-700 text-[#481895]">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    href="/signup"
+                    className="hover:text-blue-700 text-[#481895]"
+                  >
                     Sign up
                   </Link>
                 </div>
@@ -227,9 +249,9 @@ export default function LoginPage() {
         {/* Image Side */}
         <div className="hidden lg:block flex-1 h-[600px]">
           <div className="h-full w-full relative rounded-r-lg overflow-hidden">
-            <Image 
-              src={focused} 
-              alt='illustration'
+            <Image
+              src={focused}
+              alt="illustration"
               layout="fill"
               objectFit="cover"
               className="rounded-r-lg"

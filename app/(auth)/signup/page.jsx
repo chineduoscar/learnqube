@@ -1,19 +1,19 @@
-'use client'
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Lock, Eye, EyeOff, Mail, UserCircle, Loader2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from 'react-toastify';
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Lock, Eye, EyeOff, Mail, UserCircle, Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import logo from '../../assets/LearnQube.png';
-import focused from '../../assets/focused.jpg';
-import GoogleIcon from '../../assets/googleIcon';
-import axiosInstance from '../../config';
+import logo from "../../assets/LearnQube.png";
+import focused from "../../assets/focused.jpg";
+import GoogleIcon from "../../assets/googleIcon";
+import axiosInstance from "../../config";
 
 function SignupPage() {
   const router = useRouter();
@@ -21,9 +21,9 @@ function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -41,33 +41,35 @@ function SignupPage() {
       });
 
       setIsLoading(false);
-      Cookies.set('token', response?.data?.token, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("token", response?.data?.token, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userName', response?.data?.user?.name, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userName", response?.data?.user?.name, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userEmail', response?.data?.user?.email, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userEmail", response?.data?.user?.email, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      Cookies.set('userRole', response?.data?.user?.role, { 
-        secure: true, 
-        sameSite: 'None',
-        path: '/'
+      Cookies.set("userRole", response?.data?.user?.role, {
+        secure: true,
+        sameSite: "None",
+        path: "/",
       });
-      console.log(response)
+      console.log(response);
       toast.success("Account created successfully");
-      router.push('/dashboard');
-      console.log(formData)
-    } 
-    catch (error) {
-      console.log("Register Failed:", error.response?.data?.message || error.message);
+      router.push("/dashboard");
+      console.log(formData);
+    } catch (error) {
+      console.log(
+        "Register Failed:",
+        error.response?.data?.message || error.message,
+      );
       setIsLoading(false);
       toast.error("Registration failed. Try again.");
     }
@@ -75,13 +77,16 @@ function SignupPage() {
 
   const handleGoogleSignup = async () => {
     try {
-      window.location.href = 'https://learnqubeapi.onrender.com/api/v1/auth/google/callback';
+      window.location.href =
+        "https://api-learnqube-backend.onrender.com/api/v1/auth/google/callback";
     } catch (error) {
-      console.log("Google Signup Failed:", error.response?.data?.message || error.message);
+      console.log(
+        "Google Signup Failed:",
+        error.response?.data?.message || error.message,
+      );
       toast.error("Registration failed. Try again.");
     }
   };
-  
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center md:p-4 bg-gray-50">
@@ -92,24 +97,28 @@ function SignupPage() {
             <CardHeader className="space-y-6 pt-8">
               {/* Logo Section */}
               <div className="flex items-center justify-center">
-                <Link href={'/'}>
-                  <div className='flex items-center gap-4'>
+                <Link href={"/"}>
+                  <div className="flex items-center gap-4">
                     <div>
                       <Image
                         src={logo}
-                        alt='learnQube'
+                        alt="learnQube"
                         height={80}
                         width={80}
                         className="h-12 w-12"
                       />
                     </div>
-                    <span className='font-bold text-2xl text-[#481895]'>LEARNQUBE</span>
+                    <span className="font-bold text-2xl text-[#481895]">
+                      LEARNQUBE
+                    </span>
                   </div>
                 </Link>
               </div>
-              
+
               <div className="space-y-1 pt-2">
-                <CardTitle className="text-2xl text-center">Create an Account</CardTitle>
+                <CardTitle className="text-2xl text-center">
+                  Create an Account
+                </CardTitle>
                 <p className="text-sm text-muted-foreground text-center">
                   Enter your details to start your learning journey
                 </p>
@@ -148,7 +157,7 @@ function SignupPage() {
                     <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
@@ -187,20 +196,30 @@ function SignupPage() {
                     <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                     <button
                       type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground hover:text-gray-700"
                     >
-                      {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showConfirmPassword ? (
+                        <EyeOff size={20} />
+                      ) : (
+                        <Eye size={20} />
+                      )}
                     </button>
                   </div>
                 </div>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full text-white bg-[#481895]"
                   disabled={isLoading}
                 >
-                   {isLoading ? <Loader2 className="animate-spin w-5 h-5" /> : "Sign Up"}
+                  {isLoading ? (
+                    <Loader2 className="animate-spin w-5 h-5" />
+                  ) : (
+                    "Sign Up"
+                  )}
                 </Button>
 
                 <div className="relative">
@@ -225,8 +244,11 @@ function SignupPage() {
                 </Button>
 
                 <div className="text-center text-sm">
-                  Already have an account?{' '}
-                  <Link href="/login" className="hover:text-blue-700 text-[#481895]">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="hover:text-blue-700 text-[#481895]"
+                  >
                     Sign in
                   </Link>
                 </div>
@@ -238,9 +260,9 @@ function SignupPage() {
         {/* Image Side */}
         <div className="hidden lg:block flex-1 h-[780px]">
           <div className="h-full w-full relative rounded-r-lg overflow-hidden">
-            <Image 
-              src={focused} 
-              alt='illustration'
+            <Image
+              src={focused}
+              alt="illustration"
               layout="fill"
               objectFit="cover"
               className="rounded-r-lg"
